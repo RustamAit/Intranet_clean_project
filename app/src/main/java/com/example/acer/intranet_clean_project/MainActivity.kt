@@ -8,48 +8,52 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.view.ViewPager
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Toast
+import com.example.acer.intranet_clean_project.Adapters.OnItemClicked
 import com.example.acer.intranet_clean_project.Data.HeaderFooter
 import com.example.acer.intranet_clean_project.Data.OnFragmentInteractionListener
 import com.example.acer.intranet_clean_project.Data.Student
 import com.example.acer.intranet_clean_project.Data.Teacher
 import com.example.acer.intranet_clean_project.Presenters.MainPresenter
 import com.example.acer.intranet_clean_project.Views.*
+import com.google.android.gms.auth.api.Auth
+import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.api.GoogleApiClient
+import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlin.collections.HashMap
 
-class MainActivity : AppCompatActivity(),OnFragmentInteractionListener,MainViewListener {
+class MainActivity : AppCompatActivity(),OnFragmentInteractionListener,MainViewListener, OnItemClicked, GoogleApiClient.OnConnectionFailedListener {
 
-
-    var mainPresenter: MainPresenter = MainPresenter(this)
+    lateinit var mGoogleApiClient: GoogleApiClient
+    lateinit var mainPresenter: MainPresenter
     companion object {
         val PAGE_COUNT = 3
         var pagerPosition = 0
     }
-    var dataset: ArrayList<Any> = ArrayList<Any>()
     var pager: ViewPager? = null
     var pagerAdapter: RecyclerViewPagerAdapter? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
        super.onCreate(savedInstanceState)
-        mainPresenter.onCreate()
-        Log.d("MAIN_ACTIVITY_oncreate","${App.studentsArray.size}")
         setContentView(R.layout.activity_main)
+        mGoogleApiClient = GoogleApiClient.Builder(this)
+                .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
+                .addApi(Auth.GOOGLE_SIGN_IN_API)
+                .build()
+        mainPresenter = MainPresenter(this,mGoogleApiClient)
 
+       // mainPresenter.onCreate()
+        mainPresenter.checkUser()
     }
 
     override fun onResume() {
-        Log.d("MAIN_ACTIVITY_resume","${App.studentsArray.size}")
         pager = findViewById(R.id.pager) as ViewPager
         pagerAdapter = RecyclerViewPagerAdapter(supportFragmentManager)
         pager?.adapter = pagerAdapter
-        teachersList.setOnClickListener{
-            pager?.setCurrentItem(2)
-        }
-        studentsList.setOnClickListener{
-            pager?.setCurrentItem(1)
-        }
-        allUsersList.setOnClickListener{
-            pager?.setCurrentItem(0)
-        }
+
         pager?.setOnPageChangeListener(object : ViewPager.OnPageChangeListener {
 
             override fun onPageSelected(position: Int) {
@@ -68,26 +72,34 @@ class MainActivity : AppCompatActivity(),OnFragmentInteractionListener,MainViewL
                 Log.d("MAIN_ACTIVITY", "State $state")
             }
         })
+        teachersList.setOnClickListener{
+            pager?.setCurrentItem(2)
+        }
+        studentsList.setOnClickListener{
+            pager?.setCurrentItem(1)
+        }
+        allUsersList.setOnClickListener{
+            pager?.setCurrentItem(0)
+        }
         super.onResume()
     }
-
-    override fun getData(): ArrayList<Any> {
-        dataset.clear()
-        dataset.addAll(getStudents())
-        dataset.addAll(getTeachers())
-        return dataset
-    }
-    override fun getStudents(): ArrayList<Any> {
-        mainPresenter.updateStudentArray()
-        App.studentsArray.add(0,HeaderFooter.Header(1))
-        return App.studentsArray
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.main_menu, menu)
+        return true
     }
 
-    override fun getTeachers(): ArrayList<Any> {
-        mainPresenter.updateTeacherArray()
-        App.teacherArray.add(0,HeaderFooter.Header(2))
-        return App.teacherArray
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.sign_out_menu -> {
+                mainPresenter.signOut()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
+
+
     override fun startStudentCreateActivity() {
         startActivity(Intent(this,StudentCreateActivity::class.java))
     }
@@ -95,13 +107,19 @@ class MainActivity : AppCompatActivity(),OnFragmentInteractionListener,MainViewL
     override fun startTeacherCreateAvtivity() {
         startActivity(Intent(this,TeacherCreateActivity::class.java))
     }
+    override fun startLoginActivity() {
+        startActivity(Intent(this,LoginActivity::class.java))
+        finish()    }
     override fun showToast(s: String) {
         Toast.makeText(this,s,Toast.LENGTH_LONG)
     }
-
-    override fun onPause() {
-        super.onPause()
+    override fun studentClick() {
+        showToast("STUDENT_CLICKER_TEST")
     }
+    override fun onConnectionFailed(p0: ConnectionResult) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     class RecyclerViewPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
 
         override fun getItem(position: Int): Fragment {

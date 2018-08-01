@@ -2,55 +2,69 @@ package com.example.acer.intranet_clean_project.Presenters
 
 import android.util.Log
 import com.example.acer.intranet_clean_project.App
-import com.example.acer.intranet_clean_project.App.Companion.studentsArray
-import com.example.acer.intranet_clean_project.App.Companion.teacherArray
-import com.example.acer.intranet_clean_project.Data.Student
-import com.example.acer.intranet_clean_project.Data.Teacher
-import com.example.acer.intranet_clean_project.Data.UserDataEntities
+
+import com.example.acer.intranet_clean_project.Data.*
 import com.example.acer.intranet_clean_project.Models.UserDataModel
 import com.example.acer.intranet_clean_project.Models.UserDataModelListener
 import com.example.acer.intranet_clean_project.Views.MainViewListener
+import com.google.android.gms.auth.api.Auth
+import com.google.android.gms.common.api.GoogleApiClient
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.FirebaseAuth
 
-class MainPresenter(var listener: MainViewListener): BasePresenter {
-    var dataListener: UserDataModelListener = UserDataModel()
+
+
+class MainPresenter(var listener: MainViewListener, var mGoogleApiClient: GoogleApiClient): BasePresenter, dataChangeListener {
+
+
+
+    var mFirebaseAuth: FirebaseAuth? = null
+    var mFirebaseUser: FirebaseUser? = null
+    var dataListener: UserDataModelListener = UserDataModel(this)
     var entitiesList: ArrayList<Any> = ArrayList()
+    var isUserSignedIn: Boolean = false
     var isDataNotUploaded: Boolean = true
-    init {
-        Log.d("MAIN_PRESENTER","${entitiesList.size}")
-        if(App.studentsArray.size!=0 && App.teacherArray.size!=0){
-            isDataNotUploaded = false
-        }
 
-    }
     override fun onCreate() {
-        dataListener.getData().subscribeOn(Schedulers.io())
+        if(isDataNotUploaded == true){
+            dataListener.getData().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribe{ list -> entitiesList.addAll(list)}
-        Log.d("MAIN_PRESENTER_ENTITIES","${entitiesList.size}")
-    }
-
-    override fun onDestroy() {
-
-    }
-    fun updateStudentArray(){
-        if(isDataNotUploaded) {
-            studentsArray.clear()
-            entitiesList.forEach {
-                if (it is UserDataEntities.StudentEntity) {
-                    studentsArray.add(Student(it.id, it.name, it.gpa))
-                }
-            }
+            Log.d("MAIN_PRESENTER_ENTITIES","${entitiesList.size}")
         }
     }
-    fun updateTeacherArray(){
-        if(isDataNotUploaded) {
-            teacherArray.clear()
-            entitiesList.forEach {
-                if (it is UserDataEntities.TeacherEntity) {
-                    teacherArray.add(Teacher(it.id, it.name, it.salary, it.course))
-                }
+
+    override fun onDestroy() {    }
+
+
+
+
+    fun checkUser(){
+            mFirebaseAuth = FirebaseAuth.getInstance()
+            mFirebaseUser = mFirebaseAuth?.currentUser
+            if(mFirebaseUser==null){
+                listener?.startLoginActivity()
+                isUserSignedIn = true
+                Log.d("LOGIN_TEST","firebase user = null")
+
             }
-        }
+            else{
+                Log.d("LOGIN_TEST","firebase user = found")
+                Log.d("LOGIN_TEST","${mFirebaseUser?.uid}")
+                Log.d("LOGIN_TEST","${mFirebaseUser?.displayName}")
+                Log.d("LOGIN_TEST","${mFirebaseUser?.email}")
+                var claims: MutableMap<String,Any> = HashMap()
+                claims.put("admin",true)
+               // mFirebaseAuth.setCustomUserClaimsAsync(mFirebaseUser?.uid, claims)
+            }
     }
+    fun signOut(){
+        mFirebaseAuth?.signOut()
+        Auth.GoogleSignInApi.signOut(mGoogleApiClient)
+        listener?.startLoginActivity()
+    }
+    override fun onDataUpdated() {
+    }
+
 }

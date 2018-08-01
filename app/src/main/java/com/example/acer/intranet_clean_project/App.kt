@@ -10,9 +10,6 @@ import com.example.acer.intranet_clean_project.Data.Teacher
 class App: Application() {
     companion object {
         var database: AppDatabase? = null
-        var studentsArray: ArrayList<Any> = ArrayList()
-        var teacherArray: ArrayList<Any> = ArrayList()
-
     }
 
     override fun onCreate() {

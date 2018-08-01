@@ -9,12 +9,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import com.example.acer.intranet_clean_project.Adapters.UserAdapter
 import com.example.acer.intranet_clean_project.App
 import com.example.acer.intranet_clean_project.Data.OnFragmentInteractionListener
 import com.example.acer.intranet_clean_project.Data.Student
 import com.example.acer.intranet_clean_project.MainActivity
-
+import com.example.acer.intranet_clean_project.Presenters.RecyclerFragmentPresenter
 import com.example.acer.intranet_clean_project.R
 import kotlinx.android.synthetic.main.fragment_student_recycler.*
 
@@ -23,10 +24,13 @@ private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
 
-class StudentRecyclerFragment : Fragment() {
+class StudentRecyclerFragment : Fragment(), BaseFragmentView {
+
     private var param1: String? = null
     private var param2: String? = null
+    lateinit var adapter: UserAdapter
     private var listener: OnFragmentInteractionListener? = null
+    var presenter: RecyclerFragmentPresenter = RecyclerFragmentPresenter(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,11 +55,8 @@ class StudentRecyclerFragment : Fragment() {
 
 
     override fun onResume() {
-        Log.d("student_REcycler","${App.studentsArray.size}")
-
-        var adapter = UserAdapter(listener?.getStudents() as ArrayList<Any>)
+        presenter.getStudents()
         var layout = GridLayoutManager(activity,1)
-        recList.adapter = adapter
         recList.layoutManager = layout
         super.onResume()
     }
@@ -64,6 +65,14 @@ class StudentRecyclerFragment : Fragment() {
         super.onDetach()
         listener = null
     }
+    override fun setAdapter(arr: ArrayList<Any>) {
+        adapter = UserAdapter(arr, activity as MainActivity)
+        recList.adapter = adapter
+    }
+    override fun changeProgressBarVisability() {
+        progressBar.visibility = ProgressBar.GONE
+    }
+
 
 
     companion object {

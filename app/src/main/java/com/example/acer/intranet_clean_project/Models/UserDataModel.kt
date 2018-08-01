@@ -1,14 +1,42 @@
 package com.example.acer.intranet_clean_project.Models
 
+import android.util.Log
 import com.example.acer.intranet_clean_project.App
+import com.example.acer.intranet_clean_project.Data.Student
+import com.example.acer.intranet_clean_project.Data.Teacher
 import com.example.acer.intranet_clean_project.Data.UserDataEntities
+import com.example.acer.intranet_clean_project.Data.dataChangeListener
+import com.example.acer.intranet_clean_project.Presenters.BasePresenter
+import com.google.firebase.database.*
 import io.reactivex.Flowable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.BiFunction
 import io.reactivex.schedulers.Schedulers
 
-class UserDataModel: UserDataModelListener{
+/// FDB - FIREBASE DATABASE
+
+class UserDataModel(var listener: BasePresenter): UserDataModelListener{
+
+
+    override fun addTeacherFBD(t: Teacher) {
+        var mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference()
+        var ref: DatabaseReference? = mFirebaseDatabaseReference?.child("teachers")?.push()
+        t.id = ref?.key.toString()
+        ref?.setValue(t)
+    }
+
+    override fun addStudentFBD(s: Student) {
+        var mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference()
+        var ref: DatabaseReference? = mFirebaseDatabaseReference?.child("students")?.push()
+        s.id = ref?.key.toString()
+        ref?.setValue(s)
+    }
+
+
+
+
+
     override fun addStudent(se: UserDataEntities.StudentEntity) {
         Single.fromCallable {
             App.database!!.studentDao().insertStudent(se)
@@ -22,6 +50,12 @@ class UserDataModel: UserDataModelListener{
         }.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribe()    }
 
+    fun updateData(){
+        Single.fromCallable {
+            App.database!!.teacherDao().getAllTeachers()
+        }.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread()).subscribe()
+    }
     override fun getData(): Flowable<ArrayList<Any>> {
         var dataList: ArrayList<Any> = ArrayList()
         var flowable: Flowable<ArrayList<Any>> = Flowable.zip(

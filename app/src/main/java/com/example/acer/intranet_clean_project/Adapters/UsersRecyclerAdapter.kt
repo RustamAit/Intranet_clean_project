@@ -13,7 +13,7 @@ import com.example.acer.intranet_clean_project.Data.HeaderFooter
 import com.example.acer.intranet_clean_project.R
 
 
-class UserAdapter(val dataset: ArrayList<Any>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class UserAdapter(val dataset: ArrayList<Any>,var listener: OnItemClicked): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun getItemViewType(position: Int): Int =
             when(dataset[position]){
@@ -50,6 +50,9 @@ class UserAdapter(val dataset: ArrayList<Any>): RecyclerView.Adapter<RecyclerVie
         Log.d("ADAPTER_LOG","${dataset[position].toString()}")
         when(holder){
             is StudentViewHolder -> {
+                holder.itemView.setOnClickListener {
+                    listener.studentClick()
+                }
                 return holder.bind(dataset[position] as Student)}
             is TeacherViewHolder -> return holder.bind(dataset[position] as Teacher)
 
@@ -62,11 +65,11 @@ class UserAdapter(val dataset: ArrayList<Any>): RecyclerView.Adapter<RecyclerVie
         fun bind(p: Student){
             val name = itemView.findViewById<TextView>(R.id.name)
             val age  = itemView.findViewById<TextView>(R.id.age)
-            val gpa  = itemView.findViewById<TextView>(R.id.gpa)
+            val course  = itemView.findViewById<TextView>(R.id.course)
 
-            name.text=p.getName()
-            age.text =p.getId().toString()
-            gpa.text = p.gpa!!.toString()
+            name.text=p.name
+            age.text =p.id
+            course.text = p.course!!.toString()
 
             Log.d("qwerty", "vieewHolder => $p")
         }
@@ -78,8 +81,8 @@ class UserAdapter(val dataset: ArrayList<Any>): RecyclerView.Adapter<RecyclerVie
             val age  = itemView.findViewById<TextView>(R.id.age)
             val salary  = itemView.findViewById<TextView>(R.id.gpa)
 
-            name.text=p.getName()
-            age.text =p.getId().toString()
+            name.text=p.name
+            age.text =p.id
             salary.text = p.salary.toString()
 
             Log.d("qwerty", "vieewHolder => $p")

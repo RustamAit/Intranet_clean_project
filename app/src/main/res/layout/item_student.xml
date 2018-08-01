@@ -45,7 +45,7 @@
                 card_view:layout_constraintBottom_toBottomOf="parent" />
 
             <TextView
-                android:id="@+id/gpa"
+                android:id="@+id/course"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"

@@ -4,11 +4,11 @@ import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
 
 object UserDataEntities {
-    @Entity(tableName = "Students") class StudentEntity(@PrimaryKey(autoGenerate = true) var id: Int?, var name: String, var gpa: Double){
+    @Entity(tableName = "Students") class StudentEntity(@PrimaryKey var id: String, var name: String, var gpa: Double){
         override fun toString(): String{
             return "$id   $name $gpa"
         }
     }
-    @Entity(tableName = "Teachers") class TeacherEntity(@PrimaryKey(autoGenerate = true) var id: Int?, var name: String, var salary: Int, var course: String){}
+    @Entity(tableName = "Teachers") class TeacherEntity(@PrimaryKey var id: String, var name: String, var salary: Int, var course: String){}
 
 }

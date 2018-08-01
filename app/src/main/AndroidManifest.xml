@@ -18,8 +18,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".Views.StudentCreateActivity" />
-        <activity android:name=".Splash" />
-        <activity android:name=".Views.TeacherCreateActivity"></activity>
+        <activity android:name=".Views.TeacherCreateActivity" />
+        <activity android:name=".Views.LoginActivity"></activity>
     </application>
 
 </manifest>
