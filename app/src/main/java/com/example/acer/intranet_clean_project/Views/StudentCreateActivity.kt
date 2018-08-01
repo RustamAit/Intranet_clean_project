@@ -33,7 +33,7 @@ class StudentCreateActivity : AppCompatActivity(),CreateViewListener {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when(item!!.itemId){
             R.id.done_btn-> {
-                createPresenter.saveStudent(name.text.toString(),sId.text.toString(),gpa.text.toString())
+                createPresenter.saveStudent(name.text.toString(),sId.text.toString(),surName.text.toString(),email.text.toString(),password.text.toString(),yearOfstudy.text.toString())
             }
         }
         return super.onOptionsItemSelected(item)

@@ -5,7 +5,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.TextView
 import com.example.acer.intranet_clean_project.Data.Student
 import com.example.acer.intranet_clean_project.Data.Teacher
@@ -69,9 +68,9 @@ class UserAdapter(val dataset: ArrayList<Any>,var listener: OnItemClicked): Recy
 
             name.text=p.name
             age.text =p.id
-            course.text = p.course!!.toString()
+            course.text = p.yearOfStudy!!.toString()
 
-            Log.d("qwerty", "vieewHolder => $p")
+            Log.d("qwerty", "viewHolder => $p")
         }
 
     }

@@ -1,11 +1,17 @@
 package com.example.acer.intranet_clean_project.Presenters
 
+import android.util.Log
 import com.example.acer.intranet_clean_project.Views.BaseView
+import com.example.acer.intranet_clean_project.Views.LoginView
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 
-class LoginPresenter(view: BaseView):BasePresenter, OnCompleteListener<Any> {
+
+///
+///
+///
+class LoginPresenter(var view: LoginView):BasePresenter, OnCompleteListener<Any> {
     override fun onComplete(p0: Task<Any>) {
         if(!p0.isSuccessful){
             view.showToast("Wrong Email OrPassword")
@@ -14,11 +20,9 @@ class LoginPresenter(view: BaseView):BasePresenter, OnCompleteListener<Any> {
     }
     lateinit var mAuthStateListener: FirebaseAuth.AuthStateListener
     lateinit private var mAuth: FirebaseAuth
-    lateinit var view: BaseView
 
     init {
         onCreate()
-        this.view = view
 
     }
     override fun onCreate() {
@@ -30,7 +34,12 @@ class LoginPresenter(view: BaseView):BasePresenter, OnCompleteListener<Any> {
     }
     fun startLogin(email: String,password: String){
         if(validation(email, password)){
-            mAuth.signInWithEmailAndPassword(email,password)
+            mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener {
+                if(it.isSuccessful){
+                    Log.d("LOGIN",it.exception.toString())
+                    view.startMainActivity()
+                }
+            }
         }
         else{
             view.showToast("wrong data")

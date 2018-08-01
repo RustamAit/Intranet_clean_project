@@ -22,14 +22,14 @@ class UserDataModel(var listener: BasePresenter): UserDataModelListener{
     override fun addTeacherFBD(t: Teacher) {
         var mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference()
         var ref: DatabaseReference? = mFirebaseDatabaseReference?.child("teachers")?.push()
-        t.id = ref?.key.toString()
+        t.ketId = ref?.key.toString()
         ref?.setValue(t)
     }
 
     override fun addStudentFBD(s: Student) {
         var mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference()
         var ref: DatabaseReference? = mFirebaseDatabaseReference?.child("students")?.push()
-        s.id = ref?.key.toString()
+        s.ketId = ref?.key.toString()
         ref?.setValue(s)
     }
 

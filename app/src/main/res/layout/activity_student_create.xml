@@ -20,7 +20,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Id"
-            android:inputType="number"
+            android:inputType="text"
+            android:textColor="#000000"/>
+    </android.support.design.widget.TextInputLayout>
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        >
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Email"
+            android:inputType="textEmailAddress"
             android:textColor="#000000"/>
     </android.support.design.widget.TextInputLayout>
 
@@ -39,6 +53,36 @@
             android:inputType="text"/>
     </android.support.design.widget.TextInputLayout>
 
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        >
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/surName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Surname"
+            android:textColor="#000000"
+            android:inputType="text"/>
+    </android.support.design.widget.TextInputLayout>
+
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        >
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Password"
+            android:textColor="#000000"
+            android:inputType="text"/>
+    </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
@@ -46,12 +90,12 @@
         android:layout_margin="16dp">
 
         <android.support.design.widget.TextInputEditText
-            android:id="@+id/gpa"
+            android:id="@+id/yearOfstudy"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="GPA"
-            android:textColor="#000000"
-            android:inputType="numberDecimal"/>
+            android:hint="Year of study"
+            android:inputType="numberDecimal"
+            android:textColor="#000000" />
     </android.support.design.widget.TextInputLayout>
 
 
