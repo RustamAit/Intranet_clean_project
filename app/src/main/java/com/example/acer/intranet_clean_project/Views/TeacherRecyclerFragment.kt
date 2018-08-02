@@ -3,6 +3,7 @@ package com.example.acer.intranet_clean_project.Views
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
+import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.Fragment
 import android.support.v7.widget.GridLayoutManager
 import android.util.Log
@@ -27,6 +28,7 @@ private const val ARG_PARAM2 = "param2"
 
 class TeacherRecyclerFragment : Fragment(), BaseFragmentView {
 
+
     private var param1: String? = null
     private var param2: String? = null
     private var listener: OnFragmentInteractionListener? = null
@@ -45,10 +47,8 @@ class TeacherRecyclerFragment : Fragment(), BaseFragmentView {
         return inflater.inflate(R.layout.fragment_teacher_recycler, container, false)
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        presenter.checkUserRole()
         listener = context as MainActivity
-        addBtn.setOnClickListener {
-            listener?.startTeacherCreateAvtivity()
-        }
         super.onViewCreated(view, savedInstanceState)
     }
 
@@ -58,6 +58,12 @@ class TeacherRecyclerFragment : Fragment(), BaseFragmentView {
         var layout = GridLayoutManager(activity,1)
         recList.layoutManager = layout
         super.onResume()
+    }
+    override fun getPermission() {
+        addBtn.visibility = FloatingActionButton.VISIBLE
+        addBtn.setOnClickListener {
+            listener?.startTeacherCreateAvtivity()
+        }
     }
 
 
@@ -69,6 +75,8 @@ class TeacherRecyclerFragment : Fragment(), BaseFragmentView {
 
     override fun changeProgressBarVisability() {
     }
+
+
 
     override fun onDetach() {
         super.onDetach()
@@ -85,5 +93,8 @@ class TeacherRecyclerFragment : Fragment(), BaseFragmentView {
                         putString(ARG_PARAM2, param2)
                     }
                 }
+    }
+    override fun showToast(s: String) {
+        listener?.showToast(s)
     }
 }

@@ -8,7 +8,6 @@ import io.reactivex.Flowable
 interface UserDataModelListener {
     fun addStudent(se: UserDataEntities.StudentEntity)
     fun addTeacher(te: UserDataEntities.TeacherEntity)
-    fun addStudentFBD(s: Student)
-    fun addTeacherFBD(t: Teacher)
+
     fun getData(): Flowable<ArrayList<Any>>
 }

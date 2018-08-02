@@ -11,4 +11,6 @@ object UserDataEntities {
     }
     @Entity(tableName = "Teachers") class TeacherEntity(@PrimaryKey var id: String, var name: String, var salary: Int, var course: String){}
 
+
+    class UserRole(var email: String,var role: String)
 }

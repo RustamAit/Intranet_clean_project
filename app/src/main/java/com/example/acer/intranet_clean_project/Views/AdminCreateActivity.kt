@@ -10,20 +10,15 @@ import android.widget.Toast
 import com.example.acer.intranet_clean_project.MainActivity
 import com.example.acer.intranet_clean_project.Presenters.CreatePresenter
 import com.example.acer.intranet_clean_project.R
-import kotlinx.android.synthetic.main.activity_teacher_create.*
+import kotlinx.android.synthetic.main.activity_admin_create.*
 
-class TeacherCreateActivity : AppCompatActivity(),CreateViewListener {
-
-
-    override fun showToast(s: String) {
-        Toast.makeText(this,s,Toast.LENGTH_LONG).show()
-    }
+class AdminCreateActivity : AppCompatActivity(),CreateViewListener {
 
     var createPresenter: CreatePresenter = CreatePresenter(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_teacher_create)
+        setContentView(R.layout.activity_admin_create)
     }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         var inflater: MenuInflater = menuInflater
@@ -34,12 +29,16 @@ class TeacherCreateActivity : AppCompatActivity(),CreateViewListener {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when(item!!.itemId){
             R.id.done_btn-> {
-                createPresenter.saveTeacher(tName.text.toString(),tId.text.toString(),email.text.toString(),surName.text.toString(),password.text.toString(),salary.text.toString(),course.text.toString())
+                createPresenter.saveAdmin(name.text.toString(),aId.text.toString(),surName.text.toString(),email.text.toString(),password.text.toString())
             }
         }
         return super.onOptionsItemSelected(item)
     }
     override fun startMainActivity() {
         startActivity(Intent(this, MainActivity::class.java).putExtra("IS_DATA_LOADED",true))
+    }
+
+    override fun showToast(s: String) {
+        Toast.makeText(this,s, Toast.LENGTH_LONG).show()
     }
 }

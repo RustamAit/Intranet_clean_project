@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import com.example.acer.intranet_clean_project.Data.Admin
 import com.example.acer.intranet_clean_project.Data.Student
 import com.example.acer.intranet_clean_project.Data.Teacher
 import com.example.acer.intranet_clean_project.Data.HeaderFooter
@@ -18,10 +19,11 @@ class UserAdapter(val dataset: ArrayList<Any>,var listener: OnItemClicked): Recy
             when(dataset[position]){
                 is Student-> UserTypes.STUDENT
                 is Teacher-> UserTypes.TEACHER
+                is Admin->UserTypes.ADMIN
                 is HeaderFooter.Header -> when((dataset[position] as HeaderFooter.Header).getType()){
                     1 -> UserTypes.STUDENT_HEADER
                     2 -> UserTypes.TEACHER_HEADER
-                    else -> {UserTypes.COURSE_HEADER}
+                    else -> {UserTypes.ADMIN_HEADER}
                 }
                 else ->{UserTypes.UNDEFINED }
             }
@@ -32,8 +34,10 @@ class UserAdapter(val dataset: ArrayList<Any>,var listener: OnItemClicked): Recy
         when(viewType){
             UserTypes.TEACHER -> return TeacherViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_teacher,parent,false))
             UserTypes.STUDENT -> return StudentViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_student,parent,false))
+            UserTypes.ADMIN -> return AdminViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_admin,parent,false))
             UserTypes.TEACHER_HEADER -> return HeaderViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.teacher_item_header,parent,false))
             UserTypes.STUDENT_HEADER -> return HeaderViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.student_item_header,parent,false))
+            UserTypes.ADMIN_HEADER ->return HeaderViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.admin_item_header,parent,false))
             else -> {
                 return UndefinedViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_undefined,parent,false))
             }
@@ -54,6 +58,7 @@ class UserAdapter(val dataset: ArrayList<Any>,var listener: OnItemClicked): Recy
                 }
                 return holder.bind(dataset[position] as Student)}
             is TeacherViewHolder -> return holder.bind(dataset[position] as Teacher)
+            is AdminViewHolder -> return holder.bind(dataset[position] as Admin)
 
         }
     }
@@ -87,6 +92,17 @@ class UserAdapter(val dataset: ArrayList<Any>,var listener: OnItemClicked): Recy
             Log.d("qwerty", "vieewHolder => $p")
         }
     }
+    inner class AdminViewHolder(v: View): RecyclerView.ViewHolder(v){
+        fun bind(p: Admin){
+            val name = itemView.findViewById<TextView>(R.id.name)
+            val surname = itemView.findViewById<TextView>(R.id.surname)
+            val id = itemView.findViewById<TextView>(R.id.aId)
+            name.text = p.name
+            surname.text = p.surname
+            id.text = p.id
+        }
+    }
+
     inner class UndefinedViewHolder(v: View): RecyclerView.ViewHolder(v){}
     inner class HeaderViewHolder(v: View): RecyclerView.ViewHolder(v){}
 
@@ -94,8 +110,9 @@ class UserAdapter(val dataset: ArrayList<Any>,var listener: OnItemClicked): Recy
         const val UNDEFINED = 0
         const val STUDENT = 1
         const val TEACHER = 2
-        const val STUDENT_HEADER = 3
-        const val TEACHER_HEADER = 4
-        const val COURSE_HEADER  = 5
+        const  val ADMIN = 3
+        const val STUDENT_HEADER = 4
+        const val TEACHER_HEADER = 5
+        const val ADMIN_HEADER  = 6
     }
 }

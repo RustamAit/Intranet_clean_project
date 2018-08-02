@@ -31,31 +31,13 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
 
 
 
-    lateinit var mFirebaseAuth: FirebaseAuth
-    lateinit var mGoogleApiClient: GoogleApiClient
-    lateinit var loginPresenter: LoginPresenter
-    private var mFirebaseDatabaseReference: DatabaseReference? = null
 
-    val RC_SIGN_IN: Int = 9001
+    lateinit var loginPresenter: LoginPresenter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         loginPresenter = LoginPresenter(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-        mFirebaseAuth = FirebaseAuth.getInstance()
-
-        var googleSignOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build()
-        mGoogleApiClient = GoogleApiClient.Builder(this)
-                .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
-                .addApi(Auth.GOOGLE_SIGN_IN_API, googleSignOptions)
-                .build()
-        sign_in_button.setOnClickListener {
-            Log.d("SIGN_IN_LOG","signInFun")
-            signIn()
-        }
-
 
     }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -72,50 +54,12 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
         }
         return super.onOptionsItemSelected(item)
     }
-    fun signIn(){
-        Log.d("SIGN_IN_LOG","signInFun")
 
-        var signInIntent: Intent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient)
-        startActivityForResult(signInIntent, RC_SIGN_IN)
-    }
     override fun onConnectionFailed(p0: ConnectionResult) {
         Log.d("SIGN_IN_LOG", "onConnectionFailed:" + p0);
         Toast.makeText(this, "Google Play Services error.", Toast.LENGTH_SHORT).show();    }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        Log.d("SIGN_IN_LOG","Google Sign-In failed")
-        if(requestCode==RC_SIGN_IN){
-            var result: GoogleSignInResult = Auth.GoogleSignInApi.getSignInResultFromIntent(data)
-            if(result.isSuccess){
-                var account: GoogleSignInAccount = result.signInAccount!!
-                firebaseAuthWithGoogle(account)
-            }
-            else{
-                Log.e("SIGN_IN_LOG","Google Sign-In failed")
-            }
 
-
-        }
-
-
-    }
-
-
-    private fun firebaseAuthWithGoogle(acct: GoogleSignInAccount) {
-        val credential = GoogleAuthProvider.getCredential(acct.idToken, null)
-        mFirebaseAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this) { task ->
-
-                    if (!task.isSuccessful) {
-                        Toast.makeText(this@LoginActivity, "Authentication failed.",
-                                Toast.LENGTH_SHORT).show()
-                    } else {
-                        startActivity(Intent(this@LoginActivity, MainActivity::class.java))
-                        finish()
-                    }
-                }
-    }
     override fun showToast(s: String) {
         Toast.makeText(this,s,Toast.LENGTH_LONG).show()
     }

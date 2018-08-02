@@ -12,18 +12,13 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import com.example.acer.intranet_clean_project.Adapters.OnItemClicked
-import com.example.acer.intranet_clean_project.Data.HeaderFooter
 import com.example.acer.intranet_clean_project.Data.OnFragmentInteractionListener
-import com.example.acer.intranet_clean_project.Data.Student
-import com.example.acer.intranet_clean_project.Data.Teacher
 import com.example.acer.intranet_clean_project.Presenters.MainPresenter
 import com.example.acer.intranet_clean_project.Views.*
 import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.api.GoogleApiClient
-import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlin.collections.HashMap
 
 class MainActivity : AppCompatActivity(),OnFragmentInteractionListener,MainViewListener, OnItemClicked, GoogleApiClient.OnConnectionFailedListener {
 
@@ -107,6 +102,11 @@ class MainActivity : AppCompatActivity(),OnFragmentInteractionListener,MainViewL
     override fun startTeacherCreateAvtivity() {
         startActivity(Intent(this,TeacherCreateActivity::class.java))
     }
+
+    override fun startAdminCreateActivity() {
+        startActivity(Intent(this,AdminCreateActivity::class.java))
+    }
+
     override fun startLoginActivity() {
         startActivity(Intent(this,LoginActivity::class.java))
         finish()    }
@@ -127,10 +127,10 @@ class MainActivity : AppCompatActivity(),OnFragmentInteractionListener,MainViewL
             when(position){
                 1 -> return StudentRecyclerFragment()
                 2 -> return TeacherRecyclerFragment()
-                0 -> return UserRecyclerFragment()
+                0 -> return AdminRecyclerFragment()
             }
 
-            return UserRecyclerFragment()
+            return AdminRecyclerFragment()
 
         }
 

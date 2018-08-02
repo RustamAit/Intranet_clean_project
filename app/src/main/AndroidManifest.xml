@@ -19,7 +19,8 @@
         </activity>
         <activity android:name=".Views.StudentCreateActivity" />
         <activity android:name=".Views.TeacherCreateActivity" />
-        <activity android:name=".Views.LoginActivity"></activity>
+        <activity android:name=".Views.LoginActivity" />
+        <activity android:name=".Views.AdminCreateActivity"></activity>
     </application>
 
 </manifest>

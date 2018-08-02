@@ -1,10 +1,9 @@
 package com.example.acer.intranet_clean_project.Presenters
 
 import android.util.Log
-import com.example.acer.intranet_clean_project.App
 
 import com.example.acer.intranet_clean_project.Data.*
-import com.example.acer.intranet_clean_project.Models.UserDataModel
+import com.example.acer.intranet_clean_project.Models.UserDataModelRoomDB
 import com.example.acer.intranet_clean_project.Models.UserDataModelListener
 import com.example.acer.intranet_clean_project.Views.MainViewListener
 import com.google.android.gms.auth.api.Auth
@@ -22,7 +21,7 @@ class MainPresenter(var listener: MainViewListener, var mGoogleApiClient: Google
 
     var mFirebaseAuth: FirebaseAuth? = null
     var mFirebaseUser: FirebaseUser? = null
-    var dataListener: UserDataModelListener = UserDataModel(this)
+    var dataListener: UserDataModelListener = UserDataModelRoomDB(this)
     var entitiesList: ArrayList<Any> = ArrayList()
     var isUserSignedIn: Boolean = false
     var isDataNotUploaded: Boolean = true

@@ -24,7 +24,7 @@
             android:layout_marginTop="8dp"
             android:background="@color/colorPrimaryDark"
             android:drawableRight="@drawable/ic_people_outline_black_24dp"
-            android:text="ALL USERS"
+            android:text="ADMINS"
             android:textColor="#FFFFFF"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"

@@ -1,29 +1,27 @@
 package com.example.acer.intranet_clean_project.Views
 
-import android.content.Context
-import android.net.Uri
 import android.os.Bundle
+import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.Fragment
 import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import com.example.acer.intranet_clean_project.Adapters.UserAdapter
+import com.example.acer.intranet_clean_project.App
 import com.example.acer.intranet_clean_project.Data.OnFragmentInteractionListener
 import com.example.acer.intranet_clean_project.MainActivity
 import com.example.acer.intranet_clean_project.Presenters.RecyclerFragmentPresenter
 
 import com.example.acer.intranet_clean_project.R
-import kotlinx.android.synthetic.main.fragment_user_recycler.*
+import kotlinx.android.synthetic.main.fragment_admin_recycler.*
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
 
-class UserRecyclerFragment : Fragment(),BaseFragmentView {
-
+class AdminRecyclerFragment : Fragment(),BaseFragmentView {
 
 
     private var param1: String? = null
@@ -41,7 +39,7 @@ class UserRecyclerFragment : Fragment(),BaseFragmentView {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_user_recycler, container, false)
+        return inflater.inflate(R.layout.fragment_admin_recycler, container, false)
     }
 
 
@@ -52,13 +50,12 @@ class UserRecyclerFragment : Fragment(),BaseFragmentView {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         listener = context as MainActivity
-
-
+        presenter.checkUserRole()
         super.onViewCreated(view, savedInstanceState)
     }
 
     override fun onResume() {
-        presenter.getAllUsers()
+        presenter.getAdmins()
         var layout = GridLayoutManager(activity,1)
         recList.layoutManager = layout
         super.onResume()
@@ -72,12 +69,23 @@ class UserRecyclerFragment : Fragment(),BaseFragmentView {
         progressBar.visibility = ProgressBar.GONE
     }
 
+    override fun getPermission() {
+        addBtn.setOnClickListener{
+                listener?.startAdminCreateActivity()
+            }
+        addBtn.visibility = FloatingActionButton.VISIBLE
+    }
+
+
+    override fun showToast(s: String) {
+        listener?.showToast(s)
+    }
 
 
     companion object {
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-                UserRecyclerFragment().apply {
+                AdminRecyclerFragment().apply {
                     arguments = Bundle().apply {
                         putString(ARG_PARAM1, param1)
                         putString(ARG_PARAM2, param2)

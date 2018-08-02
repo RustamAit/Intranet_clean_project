@@ -13,6 +13,9 @@ class App: Application() {
         var db: FirebaseDatabase? = null
         var studentChildRef: DatabaseReference? = null
         var teacherChildRef: DatabaseReference? = null
+        var adminChildRef: DatabaseReference? = null
+        var role: String = "admin"
+        var currentUserName = ""
 
     }
 
@@ -23,5 +26,6 @@ class App: Application() {
         db = FirebaseDatabase.getInstance()
         studentChildRef =  db?.getReference()?.child("students")
         teacherChildRef =  db?.getReference()?.child("teachers")
+        adminChildRef = db?.getReference()?.child("admins")
     }
 }

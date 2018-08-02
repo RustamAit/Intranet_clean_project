@@ -16,22 +16,10 @@ import io.reactivex.schedulers.Schedulers
 
 /// FDB - FIREBASE DATABASE
 
-class UserDataModel(var listener: BasePresenter): UserDataModelListener{
+class UserDataModelRoomDB(var listener: BasePresenter): UserDataModelListener{
 
 
-    override fun addTeacherFBD(t: Teacher) {
-        var mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference()
-        var ref: DatabaseReference? = mFirebaseDatabaseReference?.child("teachers")?.push()
-        t.ketId = ref?.key.toString()
-        ref?.setValue(t)
-    }
 
-    override fun addStudentFBD(s: Student) {
-        var mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference()
-        var ref: DatabaseReference? = mFirebaseDatabaseReference?.child("students")?.push()
-        s.ketId = ref?.key.toString()
-        ref?.setValue(s)
-    }
 
 
 

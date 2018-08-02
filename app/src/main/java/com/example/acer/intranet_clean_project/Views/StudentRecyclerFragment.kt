@@ -3,6 +3,7 @@ package com.example.acer.intranet_clean_project.Views
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
+import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.Fragment
 import android.support.v7.widget.GridLayoutManager
 import android.util.Log
@@ -26,6 +27,7 @@ private const val ARG_PARAM2 = "param2"
 
 class StudentRecyclerFragment : Fragment(), BaseFragmentView {
 
+
     private var param1: String? = null
     private var param2: String? = null
     lateinit var adapter: UserAdapter
@@ -46,11 +48,9 @@ class StudentRecyclerFragment : Fragment(), BaseFragmentView {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        presenter.checkUserRole()
         listener = context as MainActivity
-        addBtn.setOnClickListener{
-            listener?.startStudentCreateActivity()
-        }
-        super.onViewCreated(view, savedInstanceState)
+       super.onViewCreated(view, savedInstanceState)
     }
 
 
@@ -72,6 +72,14 @@ class StudentRecyclerFragment : Fragment(), BaseFragmentView {
     override fun changeProgressBarVisability() {
         progressBar.visibility = ProgressBar.GONE
     }
+    override fun getPermission() {
+        addBtn.visibility = FloatingActionButton.VISIBLE
+        addBtn.setOnClickListener{
+            listener?.startStudentCreateActivity()
+        }
+    }
+
+
 
 
 
@@ -85,5 +93,8 @@ class StudentRecyclerFragment : Fragment(), BaseFragmentView {
                         putString(ARG_PARAM2, param2)
                     }
                 }
+    }
+    override fun showToast(s: String) {
+        listener?.showToast(s)
     }
 }
