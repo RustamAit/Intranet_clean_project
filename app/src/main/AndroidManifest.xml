@@ -20,7 +20,9 @@
         <activity android:name=".Views.StudentCreateActivity" />
         <activity android:name=".Views.TeacherCreateActivity" />
         <activity android:name=".Views.LoginActivity" />
-        <activity android:name=".Views.AdminCreateActivity"></activity>
+        <activity android:name=".Views.AdminCreateActivity" />
+        <activity android:name=".Views.TeacherActivity" />
+        <activity android:name=".Views.StudentActivity"></activity>
     </application>
 
 </manifest>

@@ -1,8 +1,9 @@
 package com.example.acer.intranet_clean_project.Models
 
-interface UserFBDModelListener {
+interface BaseUserFBDModel {
     fun getTeacherFBD()
     fun getStudentsFBD()
     fun getAdminsFBD()
+
 
 }

@@ -11,7 +11,7 @@ import com.example.acer.intranet_clean_project.Data.Teacher
 import com.example.acer.intranet_clean_project.Presenters.BaseFragmentPresenter
 import com.google.firebase.database.*
 
-class UserFBDModel(var listener: BaseFragmentPresenter): UserFBDModelListener{
+class BaseUserFBDModelImp(var listener: BaseFragmentPresenter): BaseUserFBDModel{
     override fun getAdminsFBD() {
         var result: ArrayList<Any> = ArrayList()
         result.add(HeaderFooter.Header(3))
@@ -60,6 +60,7 @@ class UserFBDModel(var listener: BaseFragmentPresenter): UserFBDModelListener{
         })
 
     }
+
     override fun getStudentsFBD() {
         var result: ArrayList<Any> = ArrayList()
         result.add(HeaderFooter.Header(1))

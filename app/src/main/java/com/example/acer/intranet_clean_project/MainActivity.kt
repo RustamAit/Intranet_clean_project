@@ -13,6 +13,9 @@ import android.view.MenuItem
 import android.widget.Toast
 import com.example.acer.intranet_clean_project.Adapters.OnItemClicked
 import com.example.acer.intranet_clean_project.Data.OnFragmentInteractionListener
+import com.example.acer.intranet_clean_project.Data.Subject
+import com.example.acer.intranet_clean_project.Models.StudentTeacherModels.TeacherFBDModelImp
+import com.example.acer.intranet_clean_project.Presenters.CreatePresenter
 import com.example.acer.intranet_clean_project.Presenters.MainPresenter
 import com.example.acer.intranet_clean_project.Views.*
 import com.google.android.gms.auth.api.Auth
@@ -22,7 +25,6 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(),OnFragmentInteractionListener,MainViewListener, OnItemClicked, GoogleApiClient.OnConnectionFailedListener {
 
-    lateinit var mGoogleApiClient: GoogleApiClient
     lateinit var mainPresenter: MainPresenter
     companion object {
         val PAGE_COUNT = 3
@@ -34,17 +36,20 @@ class MainActivity : AppCompatActivity(),OnFragmentInteractionListener,MainViewL
     override fun onCreate(savedInstanceState: Bundle?) {
        super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        mGoogleApiClient = GoogleApiClient.Builder(this)
-                .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
-                .addApi(Auth.GOOGLE_SIGN_IN_API)
-                .build()
-        mainPresenter = MainPresenter(this,mGoogleApiClient)
 
+        var a = TeacherFBDModelImp()
+        a.findTeachersCourse("teacher@gmail.com")
+
+
+        mainPresenter = MainPresenter(this)
        // mainPresenter.onCreate()
         mainPresenter.checkUser()
     }
 
     override fun onResume() {
+
+
+
         pager = findViewById(R.id.pager) as ViewPager
         pagerAdapter = RecyclerViewPagerAdapter(supportFragmentManager)
         pager?.adapter = pagerAdapter

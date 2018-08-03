@@ -2,11 +2,12 @@ package com.example.acer.intranet_clean_project.Presenters
 
 import android.util.Log
 import com.example.acer.intranet_clean_project.App
-import com.example.acer.intranet_clean_project.Models.UserFBDModel
+import com.example.acer.intranet_clean_project.Models.BaseUserFBDModel
+import com.example.acer.intranet_clean_project.Models.BaseUserFBDModelImp
 import com.example.acer.intranet_clean_project.Views.BaseFragmentView
 
 class RecyclerFragmentPresenter(var view: BaseFragmentView): BaseFragmentPresenter {
-    var userFBDModel: UserFBDModel = UserFBDModel(this)
+    var userFBDModel: BaseUserFBDModel = BaseUserFBDModelImp(this)
 
     override fun onCreate() {
 
