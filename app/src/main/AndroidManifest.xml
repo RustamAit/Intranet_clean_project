@@ -13,14 +13,14 @@
         <activity android:name=".MainActivity">
 
         </activity>
-        <activity android:name=".views.StudentCreateActivity" />
-        <activity android:name=".views.TeacherCreateActivity" />
-        <activity android:name=".views.LoginActivity" />
-        <activity android:name=".views.AdminCreateActivity" />
-        <activity android:name=".views.TeacherActivity" />
-        <activity android:name=".views.StudentActivity" />
-        <activity android:name=".views.CourseCreateActivity" />
-        <activity android:name=".views.SplashActivity">
+        <activity android:name=".Views.StudentCreateActivity" />
+        <activity android:name=".Views.TeacherCreateActivity" />
+        <activity android:name=".Views.LoginActivity" />
+        <activity android:name=".Views.AdminCreateActivity" />
+        <activity android:name=".Views.TeacherActivity" />
+        <activity android:name=".Views.StudentActivity" />
+        <activity android:name=".Views.CourseCreateActivity" />
+        <activity android:name=".Views.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -9,8 +9,8 @@ import com.example.acer.intranet_clean_project.Models.StudentTeacherModels.Stude
 import com.example.acer.intranet_clean_project.Models.StudentTeacherModels.StudentFDBModelImp
 import com.example.acer.intranet_clean_project.Models.StudentTeacherModels.TeacherFBDModel
 import com.example.acer.intranet_clean_project.Models.StudentTeacherModels.TeacherFBDModelImp
-import com.example.acer.intranet_clean_project.views.BaseFragmentView
-import com.example.acer.intranet_clean_project.views.StudentActivity.Companion.gpa
+import com.example.acer.intranet_clean_project.Views.BaseFragmentView
+import com.example.acer.intranet_clean_project.Views.StudentActivity.Companion.gpa
 
 class RecyclerFragmentPresenter(var view: BaseFragmentView): BaseFragmentPresenter {
 

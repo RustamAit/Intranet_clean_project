@@ -14,7 +14,7 @@ import android.widget.Toast
 import com.example.acer.intranet_clean_project.Adapters.OnItemClicked
 import com.example.acer.intranet_clean_project.Data.OnFragmentInteractionListener
 import com.example.acer.intranet_clean_project.Presenters.MainPresenter
-import com.example.acer.intranet_clean_project.views.*
+import com.example.acer.intranet_clean_project.Views.*
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.api.GoogleApiClient
 import kotlinx.android.synthetic.main.activity_main.*

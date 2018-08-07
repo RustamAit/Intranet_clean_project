@@ -1,4 +1,4 @@
-package com.example.acer.intranet_clean_project.views
+package com.example.acer.intranet_clean_project.Views
 
 import android.app.AlertDialog
 import android.content.Intent
@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
-import android.support.v4.view.PagerAdapter
 import android.support.v4.view.ViewPager
 import android.util.Log
 import android.view.Menu
@@ -16,9 +15,10 @@ import android.widget.Toast
 import com.example.acer.intranet_clean_project.App
 import com.example.acer.intranet_clean_project.Data.OnStudentFragmentInteractionListener
 import com.example.acer.intranet_clean_project.R
-import com.example.acer.intranet_clean_project.views.StudentActivity.Companion.PAGE_COUNT
+import com.example.acer.intranet_clean_project.Views.StudentActivity.Companion.PAGE_COUNT
 
 class StudentActivity : AppCompatActivity(),BaseStudentTeacherView,OnStudentFragmentInteractionListener {
+
     companion object {
         val PAGE_COUNT = 2
         var pagerPosition = 0
@@ -60,8 +60,11 @@ class StudentActivity : AppCompatActivity(),BaseStudentTeacherView,OnStudentFrag
         super.onResume()
     }
     override fun registerToCourse(cId: String) {
-
     }
+    override fun changePagerPosition(i: Int) {
+        pagerAdapter.getItem(i)
+    }
+
 
     override fun startLoginActivity() {
         startActivity(Intent(this,LoginActivity::class.java))
@@ -88,13 +91,6 @@ class StudentActivity : AppCompatActivity(),BaseStudentTeacherView,OnStudentFrag
             }
             R.id.gpa_menu->{
                 showAlarmMessage("Your current gpa is ${gpa}")
-            }
-            R.id.my_courses_menu->{
-                pagerAdapter.getItem(0)
-            }
-
-            R.id.all_courses_menu->{
-                pagerAdapter.getItem(1)
             }
 
         }

@@ -5,7 +5,7 @@
     android:id = "@+id/parentLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".views.StudentRecyclerFragment">
+    tools:context=".Views.StudentRecyclerFragment">
 
     <!-- TODO: Update blank fragment layout -->
 

@@ -4,7 +4,7 @@ import android.util.Log
 import com.example.acer.intranet_clean_project.App
 import com.example.acer.intranet_clean_project.Models.UserLoginModelFBD
 import com.example.acer.intranet_clean_project.Models.UserLoginModelFBDImp
-import com.example.acer.intranet_clean_project.views.LoginView
+import com.example.acer.intranet_clean_project.Views.LoginView
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 

@@ -3,7 +3,7 @@ package com.example.acer.intranet_clean_project.Presenters
 import com.example.acer.intranet_clean_project.Data.Subject
 import com.example.acer.intranet_clean_project.Models.StudentTeacherModels.TeacherFBDModel
 import com.example.acer.intranet_clean_project.Models.StudentTeacherModels.TeacherFBDModelImp
-import com.example.acer.intranet_clean_project.views.BaseTeacherCreateView
+import com.example.acer.intranet_clean_project.Views.BaseTeacherCreateView
 
 class CourseCreatePresenter(var view: BaseTeacherCreateView): BasePresenter{
 
