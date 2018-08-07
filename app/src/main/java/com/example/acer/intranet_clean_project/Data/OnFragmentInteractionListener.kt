@@ -5,4 +5,5 @@ interface OnFragmentInteractionListener {
     fun startTeacherCreateAvtivity()
     fun startAdminCreateActivity()
     fun showToast(s: String)
+    fun startLoginActivity()
 }

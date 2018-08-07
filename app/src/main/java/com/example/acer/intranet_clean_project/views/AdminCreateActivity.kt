@@ -1,4 +1,4 @@
-package com.example.acer.intranet_clean_project.Views
+package com.example.acer.intranet_clean_project.views
 
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
@@ -12,7 +12,8 @@ import com.example.acer.intranet_clean_project.Presenters.CreatePresenter
 import com.example.acer.intranet_clean_project.R
 import kotlinx.android.synthetic.main.activity_admin_create.*
 
-class AdminCreateActivity : AppCompatActivity(),CreateViewListener {
+class AdminCreateActivity : AppCompatActivity(),BaseCreateViewListener {
+
 
     var createPresenter: CreatePresenter = CreatePresenter(this)
 
@@ -21,7 +22,7 @@ class AdminCreateActivity : AppCompatActivity(),CreateViewListener {
         setContentView(R.layout.activity_admin_create)
     }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        var inflater: MenuInflater = menuInflater
+        val inflater: MenuInflater = menuInflater
         inflater.inflate(R.menu.create_menu,menu)
         return true
     }

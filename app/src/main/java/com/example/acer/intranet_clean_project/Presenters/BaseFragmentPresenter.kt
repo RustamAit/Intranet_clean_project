@@ -1,7 +1,9 @@
 package com.example.acer.intranet_clean_project.Presenters
 
-interface BaseFragmentPresenter{
-    fun onCreate()
-    fun onDestroy()
+import com.example.acer.intranet_clean_project.Data.Subject
+
+interface BaseFragmentPresenter: BasePresenter{
+
     fun notifySetChanged(Arr: ArrayList<Any>)
+    fun calculateGpa(map: HashMap<Subject.Course, Subject.Mark>)
 }

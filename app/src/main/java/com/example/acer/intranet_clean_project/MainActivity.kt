@@ -13,12 +13,8 @@ import android.view.MenuItem
 import android.widget.Toast
 import com.example.acer.intranet_clean_project.Adapters.OnItemClicked
 import com.example.acer.intranet_clean_project.Data.OnFragmentInteractionListener
-import com.example.acer.intranet_clean_project.Data.Subject
-import com.example.acer.intranet_clean_project.Models.StudentTeacherModels.TeacherFBDModelImp
-import com.example.acer.intranet_clean_project.Presenters.CreatePresenter
 import com.example.acer.intranet_clean_project.Presenters.MainPresenter
-import com.example.acer.intranet_clean_project.Views.*
-import com.google.android.gms.auth.api.Auth
+import com.example.acer.intranet_clean_project.views.*
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.api.GoogleApiClient
 import kotlinx.android.synthetic.main.activity_main.*
@@ -35,22 +31,16 @@ class MainActivity : AppCompatActivity(),OnFragmentInteractionListener,MainViewL
 
     override fun onCreate(savedInstanceState: Bundle?) {
        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
-        var a = TeacherFBDModelImp()
-        a.findTeachersCourse("teacher@gmail.com")
-
 
         mainPresenter = MainPresenter(this)
-       // mainPresenter.onCreate()
-        mainPresenter.checkUser()
+
+        setContentView(R.layout.activity_main)
+
+
     }
 
     override fun onResume() {
-
-
-
-        pager = findViewById(R.id.pager) as ViewPager
+       pager = findViewById(R.id.pager) as ViewPager
         pagerAdapter = RecyclerViewPagerAdapter(supportFragmentManager)
         pager?.adapter = pagerAdapter
 
@@ -114,13 +104,13 @@ class MainActivity : AppCompatActivity(),OnFragmentInteractionListener,MainViewL
 
     override fun startLoginActivity() {
         startActivity(Intent(this,LoginActivity::class.java))
-        finish()    }
+        finish()
+    }
+
     override fun showToast(s: String) {
         Toast.makeText(this,s,Toast.LENGTH_LONG)
     }
-    override fun studentClick() {
-        showToast("STUDENT_CLICKER_TEST")
-    }
+
     override fun onConnectionFailed(p0: ConnectionResult) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }

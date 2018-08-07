@@ -1,6 +1,7 @@
 package com.example.acer.intranet_clean_project.Models
 
 import android.util.Log
+import com.example.acer.intranet_clean_project.App
 import com.example.acer.intranet_clean_project.App.Companion.adminChildRef
 import com.example.acer.intranet_clean_project.App.Companion.studentChildRef
 import com.example.acer.intranet_clean_project.App.Companion.teacherChildRef
@@ -83,5 +84,6 @@ class BaseUserFBDModelImp(var listener: BaseFragmentPresenter): BaseUserFBDModel
             }
         })
     }
+
 
 }

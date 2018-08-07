@@ -1,4 +1,4 @@
-package com.example.acer.intranet_clean_project.Views
+package com.example.acer.intranet_clean_project.views
 
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
@@ -7,23 +7,13 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import android.widget.Button
 import android.widget.Toast
-import com.example.acer.intranet_clean_project.Data.Student
+import com.example.acer.intranet_clean_project.App
 import com.example.acer.intranet_clean_project.MainActivity
 import com.example.acer.intranet_clean_project.Presenters.LoginPresenter
-import com.google.android.gms.auth.api.Auth
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.auth.api.signin.GoogleSignInResult
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.api.GoogleApiClient
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.GoogleAuthProvider
 import com.example.acer.intranet_clean_project.R
-import com.google.android.gms.common.SignInButton
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_login.*
 
 
@@ -63,8 +53,12 @@ class LoginActivity : AppCompatActivity(), GoogleApiClient.OnConnectionFailedLis
     override fun showToast(s: String) {
         Toast.makeText(this,s,Toast.LENGTH_LONG).show()
     }
-    override fun startMainActivity() {
-        startActivity(Intent(this,MainActivity::class.java))
+    override fun startUserActivity() {
+        when(App.role){
+            "admin" -> startActivity(Intent(this,MainActivity::class.java))
+            "teacher" -> startActivity(Intent(this,TeacherActivity::class.java))
+            "student" -> startActivity(Intent(this,StudentActivity::class.java))
+        }
     }
 
 

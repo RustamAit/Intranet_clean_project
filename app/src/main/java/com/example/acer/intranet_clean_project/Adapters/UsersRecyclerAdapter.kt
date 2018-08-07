@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import com.example.acer.intranet_clean_project.Data.Admin
 import com.example.acer.intranet_clean_project.Data.Student
@@ -13,7 +14,7 @@ import com.example.acer.intranet_clean_project.Data.HeaderFooter
 import com.example.acer.intranet_clean_project.R
 
 
-class UserAdapter(val dataset: ArrayList<Any>,var listener: OnItemClicked): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class UserAdapter(val dataset: ArrayList<Any>,var listener: OnItemClicked,var userRole: String): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun getItemViewType(position: Int): Int =
             when(dataset[position]){
@@ -54,7 +55,6 @@ class UserAdapter(val dataset: ArrayList<Any>,var listener: OnItemClicked): Recy
         when(holder){
             is StudentViewHolder -> {
                 holder.itemView.setOnClickListener {
-                    listener.studentClick()
                 }
                 return holder.bind(dataset[position] as Student)}
             is TeacherViewHolder -> return holder.bind(dataset[position] as Teacher)
@@ -69,12 +69,22 @@ class UserAdapter(val dataset: ArrayList<Any>,var listener: OnItemClicked): Recy
         fun bind(p: Student){
             val name = itemView.findViewById<TextView>(R.id.name)
             val age  = itemView.findViewById<TextView>(R.id.age)
-            val course  = itemView.findViewById<TextView>(R.id.course)
+            val markBtn  = itemView.findViewById<TextView>(R.id.markBtn)
 
             name.text=p.name
             age.text =p.id
-            course.text = p.yearOfStudy!!.toString()
+            when(userRole){
+                "admin" -> markBtn.visibility = Button.GONE
+                "teacher"->{
+                    markBtn.visibility = Button.VISIBLE
+                    markBtn.setOnClickListener {
+                        Log.d("qwerty", "viewHolder => sdasdasdadasd")
 
+                        (listener as OnTeacherItemClicked).markStudent(p.email)
+                    }
+
+                }
+            }
             Log.d("qwerty", "viewHolder => $p")
         }
 

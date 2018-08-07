@@ -6,7 +6,7 @@
     android:id="@+id/container"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    tools:context=".Views.StudentCreateActivity"
+    tools:context=".views.StudentCreateActivity"
     >
 
     <android.support.design.widget.TextInputLayout

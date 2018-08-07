@@ -1,4 +1,4 @@
-package com.example.acer.intranet_clean_project.Views
+package com.example.acer.intranet_clean_project.views
 
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
@@ -12,12 +12,8 @@ import com.example.acer.intranet_clean_project.Presenters.CreatePresenter
 import com.example.acer.intranet_clean_project.R
 import kotlinx.android.synthetic.main.activity_teacher_create.*
 
-class TeacherCreateActivity : AppCompatActivity(),CreateViewListener {
+class TeacherCreateActivity : AppCompatActivity(),BaseCreateViewListener {
 
-
-    override fun showToast(s: String) {
-        Toast.makeText(this,s,Toast.LENGTH_LONG).show()
-    }
 
     var createPresenter: CreatePresenter = CreatePresenter(this)
 
@@ -39,7 +35,13 @@ class TeacherCreateActivity : AppCompatActivity(),CreateViewListener {
         }
         return super.onOptionsItemSelected(item)
     }
+
     override fun startMainActivity() {
         startActivity(Intent(this, MainActivity::class.java).putExtra("IS_DATA_LOADED",true))
     }
+
+    override fun showToast(s: String) {
+        Toast.makeText(this,s,Toast.LENGTH_LONG).show()
+    }
+
 }
