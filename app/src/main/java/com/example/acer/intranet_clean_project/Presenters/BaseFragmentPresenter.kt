@@ -5,5 +5,5 @@ import com.example.acer.intranet_clean_project.Data.Subject
 interface BaseFragmentPresenter: BasePresenter{
 
     fun notifySetChanged(Arr: ArrayList<Any>)
-    fun calculateGpa(map: HashMap<Subject.Course, Subject.Mark>)
+    fun calculateGpa(arr: ArrayList<Any>)
 }

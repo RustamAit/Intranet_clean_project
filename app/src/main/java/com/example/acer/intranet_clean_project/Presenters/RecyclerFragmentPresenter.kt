@@ -77,23 +77,20 @@ class RecyclerFragmentPresenter(var view: BaseFragmentView): BaseFragmentPresent
     override fun showToast(s: String) {
         view.showToast(s)
     }
-    override fun calculateGpa(map: HashMap<Subject.Course,Subject.Mark>) {
-        Log.d("Map_Test",map.toString())
+    override fun calculateGpa(arr: ArrayList<Any>) {
         var temporaryGpa: Double = 0.0
         var totalCredits = 0
-        var items = map.iterator()
-        while(items.hasNext()){
-            val index = items.next()
-            temporaryGpa+=convertToGpaPoints(index.value)*index.key.numberOfCredits
-            Log.d("Map_Test_temporaryGpa",temporaryGpa.toString())
-            totalCredits+= index.key.numberOfCredits
-            Log.d("Map_Test_credits",totalCredits.toString())
+        arr.forEach {
+            if(it is Subject.Transctript){
+                temporaryGpa +=convertToGpaPoints(it.mark)*it.course.numberOfCredits
+                totalCredits += it.course.numberOfCredits
+            }
         }
         gpa = temporaryGpa/totalCredits
         Log.d("Map_Test_Gpa",gpa.toString())
 
     }
-    fun convertToGpaPoints(mark: Subject.Mark): Double{
+    private fun convertToGpaPoints(mark: Subject.Mark): Double{
         Log.d("GPA_TEST","${mark.letter}")
 
         when(mark.letter){

@@ -161,7 +161,7 @@ class StudentFDBModelImp(var listener: BasePresenter): StudentFBDModel {
     }
     fun getMarkedCourses(map: HashMap<String,Subject.Mark>){
         Log.d("Map_Test",map.toString())
-        val result = HashMap<Subject.Course,Subject.Mark>()
+        val result = ArrayList<Any>()
         App.courseChildRef?.addListenerForSingleValueEvent(object: ValueEventListener {
             override fun onCancelled(p0: DatabaseError?) {
             }
@@ -176,11 +176,12 @@ class StudentFDBModelImp(var listener: BasePresenter): StudentFBDModel {
                         val indexMap = itemsMap.next()
                         if(courseMap["id"].toString() == indexMap.key){
                             val course = Subject.Course(courseMap["id"].toString(),courseMap["title"].toString(),courseMap["description"].toString(),courseMap["numberOfCredits"].toString().toInt())
-                            result.put(course,indexMap.value)
+                            result.add(Subject.Transctript(course,indexMap.value))
                         }
                     }
                 }
                 (listener as BaseFragmentPresenter).calculateGpa(result)
+                (listener as BaseFragmentPresenter).notifySetChanged(result)
 
             }
         })

@@ -45,7 +45,6 @@ class StudentCoursesRecyclerFragment : Fragment(),BaseFragmentView, OnItemClicke
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         listener = context as StudentActivity
-        presenter.getMarks(App.mAuth?.currentUser?.email.toString())
         addBtn.setOnClickListener {
             listener?.changePagerPosition(0)
         }
@@ -81,7 +80,6 @@ class StudentCoursesRecyclerFragment : Fragment(),BaseFragmentView, OnItemClicke
 
     override fun showToast(s: String) {
         listener?.showToast(s)
-
     }
 
 

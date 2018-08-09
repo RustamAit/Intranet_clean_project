@@ -20,7 +20,7 @@ import com.example.acer.intranet_clean_project.Views.StudentActivity.Companion.P
 class StudentActivity : AppCompatActivity(),BaseStudentTeacherView,OnStudentFragmentInteractionListener {
 
     companion object {
-        val PAGE_COUNT = 2
+        val PAGE_COUNT = 3
         var pagerPosition = 0
         var gpa = 0.0
     }
@@ -96,7 +96,7 @@ class StudentActivity : AppCompatActivity(),BaseStudentTeacherView,OnStudentFrag
         }
         return super.onOptionsItemSelected(item)
     }
-    fun showAlarmMessage(s: String){
+    private fun showAlarmMessage(s: String){
         var dialog: AlertDialog
         val builder = AlertDialog.Builder(this)
         builder.setMessage(s)
@@ -120,6 +120,7 @@ class RecyclerViewPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
         when(position){
             0 -> return StudentCoursesRecyclerFragment()
             1 -> return CourseRecyclerFragment()
+            2 -> return TranscriptFragment()
         }
 
         return CourseRecyclerFragment()
@@ -131,6 +132,7 @@ class RecyclerViewPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
         when(position){
             0->return "My courses"
             1->return "All courses"
+            2->return "Transcript"
         }
         return super.getPageTitle(position)
     }
