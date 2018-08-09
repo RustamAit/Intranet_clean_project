@@ -13,5 +13,4 @@ class Student(id: String?, name: String,surname: String,email: String,password: 
         result.put("yearOfStudy",yearOfStudy)
         return result
     }
-
 }

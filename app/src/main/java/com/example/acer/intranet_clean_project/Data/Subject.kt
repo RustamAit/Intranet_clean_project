@@ -45,6 +45,7 @@ object Subject {
     class CourseStudents(var studentEmail: String,var courseId: String){}
 
     class Transctript(var course: Course,var mark: Mark)
+    class StudentWithMarks(var student: Student, var mark: Mark?)
 
 
 }

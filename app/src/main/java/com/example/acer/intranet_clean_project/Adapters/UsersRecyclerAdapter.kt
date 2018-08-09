@@ -7,10 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
-import com.example.acer.intranet_clean_project.Data.Admin
-import com.example.acer.intranet_clean_project.Data.Student
-import com.example.acer.intranet_clean_project.Data.Teacher
-import com.example.acer.intranet_clean_project.Data.HeaderFooter
+import com.example.acer.intranet_clean_project.Data.*
 import com.example.acer.intranet_clean_project.R
 
 
@@ -21,6 +18,7 @@ class UserAdapter(val dataset: ArrayList<Any>,var listener: OnItemClicked,var us
                 is Student-> UserTypes.STUDENT
                 is Teacher-> UserTypes.TEACHER
                 is Admin->UserTypes.ADMIN
+                is Subject.StudentWithMarks -> UserTypes.STUDENT_WITH_MARK
                 is HeaderFooter.Header -> when((dataset[position] as HeaderFooter.Header).getType()){
                     1 -> UserTypes.STUDENT_HEADER
                     2 -> UserTypes.TEACHER_HEADER
@@ -39,6 +37,7 @@ class UserAdapter(val dataset: ArrayList<Any>,var listener: OnItemClicked,var us
             UserTypes.TEACHER_HEADER -> return HeaderViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.teacher_item_header,parent,false))
             UserTypes.STUDENT_HEADER -> return HeaderViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.student_item_header,parent,false))
             UserTypes.ADMIN_HEADER ->return HeaderViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.admin_item_header,parent,false))
+            UserTypes.STUDENT_WITH_MARK->return StudentsWithMarksViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_student_with_marks,parent,false))
             else -> {
                 return UndefinedViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_undefined,parent,false))
             }
@@ -59,6 +58,7 @@ class UserAdapter(val dataset: ArrayList<Any>,var listener: OnItemClicked,var us
                 return holder.bind(dataset[position] as Student)}
             is TeacherViewHolder -> return holder.bind(dataset[position] as Teacher)
             is AdminViewHolder -> return holder.bind(dataset[position] as Admin)
+            is StudentsWithMarksViewHolder -> return holder.bind(dataset[position] as Subject.StudentWithMarks)
 
         }
     }
@@ -69,22 +69,8 @@ class UserAdapter(val dataset: ArrayList<Any>,var listener: OnItemClicked,var us
         fun bind(p: Student){
             val name = itemView.findViewById<TextView>(R.id.name)
             val age  = itemView.findViewById<TextView>(R.id.age)
-            val markBtn  = itemView.findViewById<TextView>(R.id.markBtn)
-
             name.text=p.name
             age.text =p.id
-            when(userRole){
-                "admin" -> markBtn.visibility = Button.GONE
-                "teacher"->{
-                    markBtn.visibility = Button.VISIBLE
-                    markBtn.setOnClickListener {
-                        Log.d("qwerty", "viewHolder => sdasdasdadasd")
-
-                        (listener as OnTeacherItemClicked).markStudent(p.email)
-                    }
-
-                }
-            }
             Log.d("qwerty", "viewHolder => $p")
         }
 
@@ -112,6 +98,29 @@ class UserAdapter(val dataset: ArrayList<Any>,var listener: OnItemClicked,var us
             id.text = p.id
         }
     }
+    inner class StudentsWithMarksViewHolder(v: View): RecyclerView.ViewHolder(v){
+        fun bind(p: Subject.StudentWithMarks){
+            val studentName = itemView.findViewById<TextView>(R.id.studentName)
+            val mark = itemView.findViewById<TextView>(R.id.studentMark)
+            val markBtn  = itemView.findViewById<Button>(R.id.markBtn)
+            studentName.text = p.student.name
+
+            if(p.mark!=null){
+                mark.text = "Mark: " + p.mark?.letter
+                mark.visibility = TextView.VISIBLE
+                markBtn.visibility = Button.GONE
+            }
+            else{
+                mark.visibility = TextView.GONE
+                markBtn.visibility = Button.VISIBLE
+                markBtn.setOnClickListener{
+                    (listener as OnTeacherItemClicked).markStudent(p.student.email)
+                }
+            }
+
+        }
+    }
+
 
     inner class UndefinedViewHolder(v: View): RecyclerView.ViewHolder(v){}
     inner class HeaderViewHolder(v: View): RecyclerView.ViewHolder(v){}
@@ -124,5 +133,6 @@ class UserAdapter(val dataset: ArrayList<Any>,var listener: OnItemClicked,var us
         const val STUDENT_HEADER = 4
         const val TEACHER_HEADER = 5
         const val ADMIN_HEADER  = 6
+        const val STUDENT_WITH_MARK = 7
     }
 }

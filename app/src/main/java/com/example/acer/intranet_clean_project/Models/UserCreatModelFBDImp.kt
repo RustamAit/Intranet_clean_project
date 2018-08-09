@@ -36,7 +36,7 @@ class UserCreatModelFBDImp(var listener: BasePresenter): UserCreateModelFBD{
     override fun addUser(u: User){
         when(u){
             is Student -> {
-                mAuth?.createUserWithEmailAndPassword(u.email,u.password).let {
+                mAuth?.createUserWithEmailAndPassword(u.email,u.password)!!.addOnCompleteListener  {
                     if(it!!.isSuccessful){
                         addStudentFBD(u)
                         addRole(UserDataEntities.UserRole(u.email,"student"))
@@ -47,7 +47,7 @@ class UserCreatModelFBDImp(var listener: BasePresenter): UserCreateModelFBD{
                 }
             }
             is Admin -> {
-                mAuth?.createUserWithEmailAndPassword(u.email,u.password).let {
+                mAuth?.createUserWithEmailAndPassword(u.email,u.password)!!.addOnCompleteListener {
                     if(it!!.isSuccessful){
                         addAdminFBD(u)
                     }
@@ -59,7 +59,7 @@ class UserCreatModelFBDImp(var listener: BasePresenter): UserCreateModelFBD{
                 }
             }
             is Teacher -> {
-                mAuth?.createUserWithEmailAndPassword(u.email,u.password).let {
+                mAuth?.createUserWithEmailAndPassword(u.email,u.password)!!.addOnCompleteListener {
                     if(it!!.isSuccessful){
                         addTeacherFBD(u)
                         addRole(UserDataEntities.UserRole(u.email,"student"))

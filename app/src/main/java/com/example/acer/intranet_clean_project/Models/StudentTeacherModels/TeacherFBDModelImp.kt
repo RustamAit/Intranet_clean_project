@@ -1,5 +1,6 @@
 package com.example.acer.intranet_clean_project.Models.StudentTeacherModels
 
+import android.util.Log
 import com.example.acer.intranet_clean_project.App
 import com.example.acer.intranet_clean_project.App.Companion.courseChildRef
 import com.example.acer.intranet_clean_project.App.Companion.courseStudentsRef
@@ -11,6 +12,8 @@ import com.example.acer.intranet_clean_project.Presenters.BaseFragmentPresenter
 import com.example.acer.intranet_clean_project.Presenters.BasePresenter
 import com.google.firebase.database.*
 import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 class TeacherFBDModelImp(var listener: BasePresenter): TeacherFBDModel {
 
@@ -76,7 +79,7 @@ class TeacherFBDModelImp(var listener: BasePresenter): TeacherFBDModel {
 
     }
     fun findStudents(arr: ArrayList<String?>){
-        var result = ArrayList<Any>()
+        var result = HashMap<Student,String?>()
         App.studentChildRef?.addValueEventListener(object: ValueEventListener {
             override fun onCancelled(p0: DatabaseError?) {
             }
@@ -90,12 +93,65 @@ class TeacherFBDModelImp(var listener: BasePresenter): TeacherFBDModel {
                             val student = Student(map["id"].toString(),map["name"]!!.toString(),
                                     map["surname"]!!.toString(),map["email"]!!.toString(),
                                     map["password"]!!.toString(),map["ketId"]!!.toString(),map["yearOfStudy"]!!.toString().toInt())
-                            result.add(student)
+                            result.put(student,null)
                         }
                     }
 
                 }
+                checkMarks(result)
+            }
+        })
+    }
+    fun checkMarks(map: HashMap<Student,String?>){
+
+        App.markStudentRef?.addListenerForSingleValueEvent(object : ValueEventListener{
+
+            override fun onCancelled(p0: DatabaseError?) {
+            }
+
+            override fun onDataChange(p0: DataSnapshot?) {
+                val items = p0?.children?.iterator()
+                while(items!!.hasNext()){
+                    val index = items.next()
+                    var mapItems = map.iterator()
+                    while(mapItems.hasNext()){
+                        val mapIndex = mapItems.next()
+                        if(index.child("studentEmail").value.toString()==mapIndex.key.email){
+                            mapIndex.setValue(index.child("markId").value.toString())
+                        }
+                    }
+                }
+                getStudentsWithMarks(map)
+
+            }
+
+        })
+    }
+    fun getStudentsWithMarks(map: HashMap<Student,String?>) {
+        var result = ArrayList<Any>()
+        val ref = App.db?.reference?.child("marks")
+        ref?.addValueEventListener(object : ValueEventListener {
+            override fun onCancelled(p0: DatabaseError?) {
+            }
+
+            override fun onDataChange(p0: DataSnapshot?) {
+                val markArray = p0?.value as ArrayList<Any>
+                Log.d("GPA_TEST", p0?.value.toString())
+                val items = map.iterator()
+                while (items.hasNext()) {
+                    val index = items.next()
+                    if (index.value != null) {
+                        if (markArray[index.value?.toInt()!!] != null) {
+                            val markMap = markArray[index.value?.toInt()!!] as HashMap<String, Any?>
+                            result.add(Subject.StudentWithMarks(index.key, Subject.Mark(index.value, markMap["letter"].toString(), markMap["points"].toString().toInt())))
+                        }
+                    }
+                    else{
+                        result.add(Subject.StudentWithMarks(index.key,null))
+                    }
+                }
                 (listener as BaseFragmentPresenter).notifySetChanged(result)
+
             }
         })
     }
@@ -170,6 +226,8 @@ class TeacherFBDModelImp(var listener: BasePresenter): TeacherFBDModel {
         }
         markResult = true
     }
+
+
 
 
 }

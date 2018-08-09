@@ -42,4 +42,5 @@ class App: Application() {
         mAuth = FirebaseAuth.getInstance()
 
     }
+
 }

@@ -152,6 +152,7 @@ class StudentFDBModelImp(var listener: BasePresenter): StudentFBDModel {
                         val markMap = markArray[index.value.toInt()] as HashMap<String,Any?>
                         result.put(index.key,Subject.Mark(index.value,markMap["letter"].toString(),markMap["points"].toString().toInt()))
                     }
+                    
                 }
                getMarkedCourses(result)
 
